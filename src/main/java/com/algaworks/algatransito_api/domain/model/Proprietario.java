@@ -1,4 +1,4 @@
-package com.algaworks.algatransito_api.api.model;
+package com.algaworks.algatransito_api.domain.model;
 
 public class Proprietario {
     private Long id;

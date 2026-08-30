@@ -1,9 +1,11 @@
 package com.algaworks.algatransito_api.api.controller;
-import com.algaworks.algatransito_api.api.model.Proprietario;
+import com.algaworks.algatransito_api.domain.model.Proprietario;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 import java.util.Arrays;
 import java.util.List;
 
+@RestController
 public class ProprietarioController {
     @GetMapping("/proprietarios")
     public List<Proprietario> listar() {
