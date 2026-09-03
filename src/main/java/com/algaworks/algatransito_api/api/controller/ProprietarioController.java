@@ -27,8 +27,8 @@ public class ProprietarioController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public Proprietario adicionar(@RequestBody Proprietario proprietario) {
-        return proprietarioRepository.save(proprietario);
+    public ResponseEntity<Proprietario> adicionar(@RequestBody Proprietario proprietario) {
+        Proprietario novo = proprietarioRepository.save(proprietario);
+        return ResponseEntity.status(HttpStatus.CREATED).body(novo);
     }
 }
