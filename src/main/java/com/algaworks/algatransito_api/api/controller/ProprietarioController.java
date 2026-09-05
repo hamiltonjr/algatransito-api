@@ -1,6 +1,7 @@
 package com.algaworks.algatransito_api.api.controller;
 import com.algaworks.algatransito_api.domain.model.Proprietario;
 import com.algaworks.algatransito_api.domain.repository.ProprietarioRepository;
+import com.algaworks.algatransito_api.domain.service.RegistroProprietarioService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @RequestMapping("/proprietarios")
 public class ProprietarioController {
+    private final RegistroProprietarioService registroProprietarioService;
     private final ProprietarioRepository proprietarioRepository;;
 
     @GetMapping
@@ -28,20 +30,17 @@ public class ProprietarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Proprietario> adicionar(@Valid @RequestBody Proprietario proprietario) {
-        Proprietario novo = proprietarioRepository.save(proprietario);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novo);
+    public Proprietario adicionar(@Valid @RequestBody Proprietario proprietario) {
+        return registroProprietarioService.salvar(proprietario);
     }
 
-    @PutMapping("/{proprietarioId}")
     public ResponseEntity<Proprietario> atualizar(@PathVariable Long proprietarioId,
                                                   @RequestBody Proprietario proprietario) {
         if (!proprietarioRepository.existsById(proprietarioId)) {
             return ResponseEntity.notFound().build();
         }
         proprietario.setId(proprietarioId);
-        Proprietario proprietarioAtualizado = proprietarioRepository.save(proprietario);
-        return ResponseEntity.ok(proprietarioAtualizado);
+        return ResponseEntity.ok(registroProprietarioService.salvar(proprietario));
     }
 
     @DeleteMapping("/{proprietarioId}")
@@ -49,7 +48,7 @@ public class ProprietarioController {
         if (!proprietarioRepository.existsById(proprietarioId)) {
             return ResponseEntity.notFound().build();
         }
-        proprietarioRepository.deleteById(proprietarioId);
+        registroProprietarioService.excluir(proprietarioId);
         return ResponseEntity.noContent().build();
     }
 }
